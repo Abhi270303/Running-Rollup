@@ -92,6 +92,7 @@ If successful, the recipient's balance should show 1 wei or the amount you sent 
     merkleTreeHook: "0x53c8d3484DfCb90d1730aB314c2DE333540a4941"
 
 [Watch the demo of Message relayed though Hyperlane](assets/Relayer.webm)
+![Message Relay](assets/Hyp_relay.png)
 
 ```
 ? Select network type Testnet

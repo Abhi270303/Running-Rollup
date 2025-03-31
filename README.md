@@ -1,4 +1,4 @@
-# Dummy Rollup Deploy
+# Tachyon Chain Rollup by Espresso
 
 ## Local Dev
 
@@ -6,17 +6,35 @@
 $ docker compose up
 ```
 
-If you see this error:
-```
-error acting as staker                   
-err="error advancing stake from node 2 (hash 0xee288c5dcc61206e6868fa7a01da6abaabe22d6c849718a47eb361857b7e8dd8): error generating node action: block validation is still pending"
-```
-This error is expected when running a newly deployed rollup with no recent activity. It occurs because there are no new nodes to stake on or no new batches have been posted. Simply let the system continue running.
+## Rollup liveness verification
 
+CreateRollup transaction hash : `0x865465f5c2431465166775697d4ccfe10114fe2a972533981b6505ac77c3b515`
 
-## Testing the Chain
+![CreateRollup image](assets/CreateRollup.png)
 
-To verify your chain is running correctly:
+IP address of your Cloud Server (e.g., your EC2 instance on AWS): ```curl -X POST http://65.2.69.84:8547 -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_chainId","params":[],"id":1}'```
+
+![EC2 Logs](assets/EC2Logs.png)
+
+Chain ID / Namespace of the deployed rollup : `2703` or `0xa8f`(in hex)
+
+┌────────────────────────┬──────────────────────────┐
+│ (index)                │ Values                   │
+├────────────────────────┼──────────────────────────┤
+│ Name                   │ 'tachyon'                │
+│ Display Name           │ 'Tachyon'                │
+│ Chain ID               │ 2703                     │
+│ Domain ID              │ 2703                     │
+│ Protocol               │ 'ethereum'               │
+│ JSON RPC URL           │ 'http://65.2.69.84:8547' │
+│ Native Token: Symbol   │ 'ETH'                    │
+│ Native Token: Name     │ 'Ether'                  │
+│ Native Token: Decimals │ 18                       │
+└────────────────────────┴──────────────────────────┘
+
+## Testing the Chain Locally
+
+To verify that chain is running correctly:
 
 Check Confirmed Nodes by the Validator/Staker
 
@@ -34,13 +52,13 @@ Note: Bridging transactions can take up to 15 minutes to finalize.
 Verify your balance:
 
 ```
-cast balance $YOUR_PUBLIC_ADDRESS --rpc-url http://127.0.0.1:8547
+cast balance $YOUR_PUBLIC_ADDRESS --rpc-url http://65.2.69.84:8547
 ```
 
 Test sending transactions:
 
 ```
-cast send $ANY_ADDRESS --value 1 --private-key $YOUR_PRIVATE_KEY --rpc-url http://127.0.0.1:8547
+cast send $ANY_ADDRESS --value 1 --private-key $YOUR_PRIVATE_KEY --rpc-url http://65.2.69.84:8547
 ```
 
 For a more consistent test, you can also continuously send transactions to the rollup. This approach simulates a more realistic environment by continually submitting transactions, allowing you to see how the system handles ongoing activity. (See the next section for details.)
@@ -48,7 +66,66 @@ For a more consistent test, you can also continuously send transactions to the r
 Check recipient balance:
 
 ```
-cast balance $ANY_ADDRESS --rpc-url http://127.0.0.1:8547
+cast balance $ANY_ADDRESS --rpc-url http://65.2.69.84:8547
 ```
 
 If successful, the recipient's balance should show 1 wei or the amount you sent if different.
+
+## Hyperlane integration
+
+✅ Tachyon Core contract deployments complete on Hyperlane:
+
+    staticMerkleRootMultisigIsmFactory: "0x7d51B541B044FFD20926F9634924d029E29906BC"
+    staticMessageIdMultisigIsmFactory: "0x63c647E63838f3aE337EDf0fa2Ded1B322C86A99"
+    staticAggregationIsmFactory: "0x784A9C7e42CD6456aE4E3C722C43d89E419fEFBc"
+    staticAggregationHookFactory: "0xAfb6e64c3055D020804646c3BB1F801dA6a5bABe"
+    domainRoutingIsmFactory: "0xE5D933EFfc0b0611d723E1ED421AEc7AfAEe2975"
+    staticMerkleRootWeightedMultisigIsmFactory: "0x48cf6d92B7b48a1121F3A0338C41cBEac8324443"
+    staticMessageIdWeightedMultisigIsmFactory: "0x8a014c0d1020139fa3C9AF04705061CB9b1Bfd48"
+    proxyAdmin: "0x7e2e47D388B1d4525Eb8E408521ED8c45E6FcED8"
+    mailbox: "0xe86751188603ed0a9E6394aF9aabeDB7166ce49b"
+    interchainAccountRouter: "0x28ca0c8C5721a6C3B88cD6834EC4fB32692B70B5"
+    interchainAccountIsm: "0xA3CD0Cd546DAD0Ed80fc7DF229a15fd4c9676817"
+    validatorAnnounce: "0x328EeE0Ac784c0C7522AfB36e899488b1BC78CFB"
+    testRecipient: "0xfDA1257DF2BdaD7054627Fda38A1d5fc6EdEe85d"
+    merkleTreeHook: "0x53c8d3484DfCb90d1730aB314c2DE333540a4941"
+
+[Watch the demo of Message relayed though Hyperlane](assets/Relayer.webm)
+
+```
+? Select network type Testnet
+✔ Select the origin chain: basesepolia
+? Select network type Testnet
+✔ Select the destination chain: tachyon
+Running pre-flight checks for chains...
+✅ Base Sepolia signer is valid
+✅ Tachyon signer is valid
+✅ Chains are valid
+✅ Balances are sufficient
+Dispatching message
+Pending https://sepolia.basescan.org/tx/0x0467414fc999d70d661c1d918ca6643ee25c58e31e0927b213827a11574616c4 (waiting 1 blocks for confirmation)
+Sent message from basesepolia to 0xfDA1257DF2BdaD7054627Fda38A1d5fc6EdEe85d on tachyon.
+Message ID: 0x34b6c46404c9e15ece126cc3e7e96e6debb93e6daae90e01b714879c013e33a1
+Explorer Link: https://explorer.hyperlane.xyz/message/0x34b6c46404c9e15ece126cc3e7e96e6debb93e6daae90e01b714879c013e33a1
+Message:
+    parsed:
+      version: 3
+      nonce: 40610
+      origin: 84532
+      sender: "0x000000000000000000000000c116c9053d7810d19843fecc15307da4deac776b"
+      destination: 2703
+      recipient: "0x000000000000000000000000fda1257df2bdad7054627fda38a1d5fc6edee85d"
+      body: "0x48656c6c6f21"
+      originChain: basesepolia
+      destinationChain: tachyon
+    id: "0x34b6c46404c9e15ece126cc3e7e96e6debb93e6daae90e01b714879c013e33a1"
+    message: "0x0300009ea200014a34000000000000000000000000c116c9053d7810d19843fecc1\
+      5307da4deac776b00000a8f000000000000000000000000fda1257df2bdad7054627fda38a1d5\
+      fc6edee85d48656c6c6f21"
+    
+Waiting for message delivery on destination chain...
+Message 0x34b6c46404c9e15ece126cc3e7e96e6debb93e6daae90e01b714879c013e33a1 was processed
+All messages processed for tx 0x0467414fc999d70d661c1d918ca6643ee25c58e31e0927b213827a11574616c4
+Message was delivered!
+```
+

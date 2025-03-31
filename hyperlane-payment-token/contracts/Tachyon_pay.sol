@@ -55,10 +55,12 @@ contract HyperlanePaymentToken is ERC20, Ownable {
      * @param _destinationDomain The domain ID of the destination chain
      * @param _receiver The address of the receiving contract on the destination chain
      */
-    function setRemoteReceiver(uint32 _destinationDomain, bytes32 _receiver) external onlyOwner {
-        remoteReceivers[_destinationDomain] = _receiver;
+    function setRemoteReceiver(uint32 _destinationDomain, address _receiver) external onlyOwner {
+        remoteReceivers[_destinationDomain] = addressToBytes32(_receiver);
     }
-    
+    function addressToBytes32(address _addr) internal pure returns (bytes32) {
+        return bytes32(uint256(uint160(_addr)));
+    }
     /**
      * @dev Request a payment to be processed on the destination chain
      * @param _payees Array of addresses to receive tokens

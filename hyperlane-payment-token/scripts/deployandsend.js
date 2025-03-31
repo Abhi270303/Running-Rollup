@@ -20,8 +20,8 @@ async function main() {
       name: "Tachyon",
       chainId: 2703,
       domainId: 2703,
-      mailbox: process.env.TACHYON_MAILBOX || "0x35231d4c2D8B8ADcB5617A638A0c4548684c7C70",
-      igp: process.env.TACHYON_IGP || "0x56f52c0A1ddcD557285f7CBc782D3d83096CE1Cc",
+      mailbox: process.env.TACHYON_MAILBOX || "0xe86751188603ed0a9E6394aF9aabeDB7166ce49b",
+      igp: process.env.TACHYON_IGP || "0xe86751188603ed0a9E6394aF9aabeDB7166ce49b",
       contract: null,
       isOrigin: false,
     },
@@ -57,6 +57,20 @@ async function main() {
 
     // Save contract address
     currentChain.contract = deployedAddress;
+
+    // Step 3: Set remote receiver if on origin chain
+    if (currentChain.isOrigin) {
+      console.log("\n=== Setting Remote Receiver ===");
+      const destinationChain = chains.tachyon;
+      const receiverAddress = "0x5B16e5ecDc1338bb7AC0aC5174539dD91B158854"; // Replace with actual receiver
+      const tx = await token.setRemoteReceiver(destinationChain.domainId, receiverAddress);
+      
+      await tx.wait();
+      console.log("Remote receiver set successfully.");
+      const paymentTx = await token.requestPayment(["0x5B16e5ecDc1338bb7AC0aC5174539dD91B158854"], [100], chains.tachyon.domainId, { value: ethers.parseEther("0") });
+      await paymentTx.wait();
+      console.log("Payment request sent successfully.");
+    }
   } catch (error) {
     console.error("Error during deployment:", error);
     process.exit(1);
@@ -67,4 +81,3 @@ main().catch((error) => {
   console.error("Unexpected error:", error);
   process.exit(1);
 });
-

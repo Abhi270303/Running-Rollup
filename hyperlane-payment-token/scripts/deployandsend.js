@@ -67,7 +67,7 @@ async function main() {
       
       await tx.wait();
       console.log("Remote receiver set successfully.");
-      const paymentTx = await token.requestPayment(["0x5B16e5ecDc1338bb7AC0aC5174539dD91B158854"], [100], chains.tachyon.domainId, { value: ethers.parseEther("0") });
+      const paymentTx = await token.requestPayment(["0x5B16e5ecDc1338bb7AC0aC5174539dD91B158854"], [100], chains.tachyon.domainId, { value: ethers.parseEther("0.2") });
       await paymentTx.wait();
       console.log("Payment request sent successfully.");
     }

@@ -34,7 +34,7 @@ contract HyperlanePaymentToken is ERC20, Ownable {
     // Events
     event PaymentRequested(uint256 indexed paymentId, address requester);
     event PaymentProcessed(uint256 indexed paymentId);
-    event MessageSent(uint256 indexed paymentId, uint32 destinationDomain, bytes32 messageId);
+    event MessageSent(uint256 indexed paymentId, uint32 destinationDomain);
     event MessageReceived(uint32 originDomain, bytes32 sender, uint256 paymentId);
     
     /**
@@ -110,17 +110,12 @@ contract HyperlanePaymentToken is ERC20, Ownable {
             paymentRequests[_paymentId].amounts
         );
         
-        // Send the message via Hyperlane
-        bytes32 messageId = mailbox.dispatch(
-            _destinationDomain,
-            receiver,
-            message
-        );
-        
+        uint256 fee = mailbox.quoteDispatch(_destinationDomain, receiver, message);
+        mailbox.dispatch{value: fee}(_destinationDomain, receiver, message);
         // Pay for the gas on the destination chain
         
         
-        emit MessageSent(_paymentId, _destinationDomain, messageId);
+        emit MessageSent(_paymentId, _destinationDomain);
     }
     
     /**

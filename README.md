@@ -8,15 +8,15 @@ $ docker compose up
 
 ## Rollup liveness verification
 
-CreateRollup transaction hash : `0x865465f5c2431465166775697d4ccfe10114fe2a972533981b6505ac77c3b515`
+### CreateRollup transaction hash : `0x865465f5c2431465166775697d4ccfe10114fe2a972533981b6505ac77c3b515`
 
 ![CreateRollup image](assets/CreateRollup.png)
 
-IP address of your Cloud Server (e.g., your EC2 instance on AWS): ```curl -X POST http://65.2.69.84:8547 -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_chainId","params":[],"id":1}'```
+### IP address of your Cloud Server (e.g., your EC2 instance on AWS): ```curl -X POST http://65.2.69.84:8547 -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_chainId","params":[],"id":1}'```
 
 ![EC2 Logs](assets/EC2Logs.png)
 
-Chain ID / Namespace of the deployed rollup : `2703` or `0xa8f`(in hex)
+### Chain ID / Namespace of the deployed rollup : `2703` or `0xa8f`(in hex)
 
 ### Tachyon Network Details
 

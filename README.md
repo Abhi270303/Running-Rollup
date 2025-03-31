@@ -18,19 +18,20 @@ IP address of your Cloud Server (e.g., your EC2 instance on AWS): ```curl -X POS
 
 Chain ID / Namespace of the deployed rollup : `2703` or `0xa8f`(in hex)
 
-┌────────────────────────┬──────────────────────────┐
-│ (index)                │ Values                   │
-├────────────────────────┼──────────────────────────┤
-│ Name                   │ 'tachyon'                │
-│ Display Name           │ 'Tachyon'                │
-│ Chain ID               │ 2703                     │
-│ Domain ID              │ 2703                     │
-│ Protocol               │ 'ethereum'               │
-│ JSON RPC URL           │ 'http://65.2.69.84:8547' │
-│ Native Token: Symbol   │ 'ETH'                    │
-│ Native Token: Name     │ 'Ether'                  │
-│ Native Token: Decimals │ 18                       │
-└────────────────────────┴──────────────────────────┘
+### Tachyon Network Details
+
+| Parameter               | Value                     |
+|-------------------------|--------------------------|
+| **Name**               | tachyon                  |
+| **Display Name**       | Tachyon                  |
+| **Chain ID**           | 2703                     |
+| **Domain ID**          | 2703                     |
+| **Protocol**           | Ethereum                 |
+| **JSON RPC URL**       | `http://65.2.69.84:8547` |
+| **Native Token Symbol** | ETH                      |
+| **Native Token Name**  | Ether                    |
+| **Native Token Decimals** | 18                     |
+
 
 ## Testing the Chain Locally
 

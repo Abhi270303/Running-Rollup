@@ -1,10 +1,12 @@
 # Tachyon Chain Rollup by Espresso
 
-## Local Dev
+## What is tachyon 
 
-```
-$ docker compose up
-```
+Tachyon is an intent based payment solution for cross chain Payments and payrolls allowing for vendors and users to cater for chain agnostic services.
+
+It uses Espresso powered nitro rollups for high TPS to handle only payments and uses hotshot confirmations to settle even faster.
+
+The hyperlane based open intents allow for fast bridging and message passing. thereby settling transaction in a flash. Hence the name tachyon.
 
 ## Rollup liveness verification
 

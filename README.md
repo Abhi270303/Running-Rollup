@@ -95,3 +95,27 @@ If successful, the recipient's balance should show 1 wei or the amount you sent 
 
 [Watch the demo of Message relayed though Hyperlane](assets/Relayer.webm)
 ![Message Relay](assets/Hyp_relay.png)
+
+## How to Run the Project
+
+### Navigate to the transactions folder
+```bash
+cd hyperlane-payment-token
+```
+
+### Install Dependencies
+```bash
+npm i
+```
+
+### Add Environment Variables and Run the Script
+```bash
+npx hardhat run ./deployandsend.js --network tachyon
+```
+
+### Run the Same Script on Base to Deploy Sender
+```bash
+npx hardhat run ./deployandsend.js --network baseSepolia
+```
+
+This will trigger Hyperlane bridging and the solver to make payments on Tachyon.

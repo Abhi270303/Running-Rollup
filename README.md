@@ -10,7 +10,7 @@ The hyperlane based open intents allow for fast bridging and message passing. th
 
 ## Rollup liveness verification
 
-### CreateRollup transaction hash : `0x865465f5c2431465166775697d4ccfe10114fe2a972533981b6505ac77c3b515`
+### CreateRollup transaction hash : [`0x865465f5c2431465166775697d4ccfe10114fe2a972533981b6505ac77c3b515`](https://sepolia.arbiscan.io/tx/0x865465f5c2431465166775697d4ccfe10114fe2a972533981b6505ac77c3b515)
 
 ![CreateRollup image](assets/CreateRollup.png)
 

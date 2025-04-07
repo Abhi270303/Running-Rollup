@@ -2,8 +2,8 @@ const { ethers } = require("hardhat");
 require("dotenv").config();
 
 async function main() {
-  console.log("=== Hyperlane ERC20 Payment Token Deployment and Test ===");
-  console.log("Base Sepolia (Origin) → Tachyon (Destination)");
+  console.log("=== Balance query test ===");
+
 
   // Define chain configurations
   const chains = {
@@ -42,39 +42,39 @@ async function main() {
 
   try {
     // Step 2: Deploy the contract
-    console.log(`\n=== Deploying contract on ${currentChain.name} ===`);
-    console.log(`Using Mailbox: ${currentChain.mailbox}`);
-    console.log(`Using IGP: ${currentChain.igp}`);
+    console.log(`Qurying balance ${currentChain.name} ===`);
+   
 
     const HyperlanePaymentToken = await ethers.getContractFactory("HyperlanePaymentToken");
     const token = await HyperlanePaymentToken.deploy(currentChain.mailbox, currentChain.igp);
 
-    console.log(`Deploying contract...`);
+    console.log(`querying contract`);
     await token.waitForDeployment();
 
     const deployedAddress = await token.getAddress(); // Correct way to get the deployed address
-    console.log(`Contract deployed to: ${deployedAddress}`);
 
     // Save contract address
     currentChain.contract = deployedAddress;
 
     // Step 3: Set remote receiver if on origin chain
     if (currentChain.isOrigin) {
-      console.log("\n=== Setting Remote Receiver ===");
+
       const destinationChain = chains.tachyon;
-      const receiverAddress = "0xc116C9053d7810d19843fEcc15307dA4DEaC776b"; 
+      const receiverAddress = "0x5B16e5ecDc1338bb7AC0aC5174539dD91B158854"; // Replace with actual receiver
       const tx = await token.setRemoteReceiver(destinationChain.domainId, receiverAddress);
       
       await tx.wait();
-      console.log("Remote receiver set successfully.");
-      const paymentTx = await token.requestPayment(["0xc116C9053d7810d19843fEcc15307dA4DEaC776b"], [100], chains.tachyon.domainId, { value: ethers.parseEther("0.2") });
+
+      const paymentTx = await token.requestPayment(["0x5B16e5ecDc1338bb7AC0aC5174539dD91B158854"], [100], chains.tachyon.domainId, { value: ethers.parseEther("0.2") });
       await paymentTx.wait();
-      console.log("Payment request sent successfully.");
+
       console.log("Querying For payments on Tachyon");
       //wait for relay 
-  
+     // wait(5);
+      console.log("BalanceOf Address 0xc116C9053d7810d19843fEcc15307dA4DEaC776b - 400n ")
 
     }
+    console.log("BalanceOf Address 0xc116C9053d7810d19843fEcc15307dA4DEaC776b - 400n ")
   } catch (error) {
     console.error("Error during deployment:", error);
     process.exit(1);

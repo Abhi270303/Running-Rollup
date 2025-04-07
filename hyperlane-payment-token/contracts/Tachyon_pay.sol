@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@hyperlane-xyz/core/contracts/interfaces/IMailbox.sol";
 import "@hyperlane-xyz/core/contracts/interfaces/IInterchainGasPaymaster.sol";
-
+import {IInterchainSecurityModule} from "@hyperlane-xyz/core/contracts/interfaces/IInterchainSecurityModule.sol";
 /**
  * @title HyperlanePaymentToken
  * @dev ERC20 token with payment distribution functionality using Hyperlane
@@ -14,7 +14,10 @@ contract HyperlanePaymentToken is ERC20, Ownable {
     // Hyperlane contracts
     IMailbox public mailbox;
     IInterchainGasPaymaster public gasPaymaster;
-    
+    IInterchainSecurityModule public interchainSecurityModule;
+    function setInterchainSecurityModule(address _module) public {
+    interchainSecurityModule = IInterchainSecurityModule(_module);
+}
     // The contract's address on the destination chain
     mapping(uint32 => bytes32) public remoteReceivers;
     
@@ -83,7 +86,7 @@ contract HyperlanePaymentToken is ERC20, Ownable {
         request.payees = _payees;
         request.amounts = _amounts;
         request.processed = false;
-        
+ 
         emit PaymentRequested(paymentId, msg.sender);
         
         // Send the payment request to the destination chain

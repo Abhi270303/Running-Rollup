@@ -14,7 +14,7 @@ module.exports = {
     },
     tachyon: {
       url: process.env.TACHYON_RPC_URL|| "http://65.2.69.84:8547",
-      accounts: [process.env.PRIVATE_KEY],
+      accounts: [process.env.VALIDATOR_PRIVATE_KEY],
       chainId: 2703
     }
   }

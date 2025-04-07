@@ -1,12 +1,10 @@
 # Tachyon Chain Rollup by Espresso
 
-## What is tachyon 
+## Local Dev
 
-Tachyon is an intent based payment solution for cross chain Payments and payrolls allowing for vendors and users to cater for chain agnostic services.
-
-It uses Espresso powered nitro rollups for high TPS to handle only payments and uses hotshot confirmations to settle even faster.
-
-The hyperlane based open intents allow for fast bridging and message passing. thereby settling transaction in a flash. Hence the name tachyon.
+```
+$ docker compose up
+```
 
 ## Rollup liveness verification
 
@@ -88,34 +86,10 @@ If successful, the recipient's balance should show 1 wei or the amount you sent 
     proxyAdmin: "0x7e2e47D388B1d4525Eb8E408521ED8c45E6FcED8"
     mailbox: "0xe86751188603ed0a9E6394aF9aabeDB7166ce49b"
     interchainAccountRouter: "0x28ca0c8C5721a6C3B88cD6834EC4fB32692B70B5"
-    interchainAccountIsm: "0xA3CD0Cd546DAD0Ed80fc7DF229a15fd4c9676817"
+    CCIP_read ISM: "0xA3CD0Cd546DAD0Ed80fc7DF229a15fd4c9676817"
     validatorAnnounce: "0x328EeE0Ac784c0C7522AfB36e899488b1BC78CFB"
     testRecipient: "0xfDA1257DF2BdaD7054627Fda38A1d5fc6EdEe85d"
     merkleTreeHook: "0x53c8d3484DfCb90d1730aB314c2DE333540a4941"
 
 [Watch the demo of Message relayed though Hyperlane](assets/Relayer.webm)
 ![Message Relay](assets/Hyp_relay.png)
-
-## How to Run the Project
-
-### Navigate to the transactions folder
-```bash
-cd hyperlane-payment-token
-```
-
-### Install Dependencies
-```bash
-npm i
-```
-
-### Add Environment Variables and Run the Script
-```bash
-npx hardhat run ./deployandsend.js --network tachyon
-```
-
-### Run the Same Script on Base to Deploy Sender
-```bash
-npx hardhat run ./deployandsend.js --network baseSepolia
-```
-
-This will trigger Hyperlane bridging and the solver to make payments on Tachyon.
